@@ -13,6 +13,8 @@ function e(string $texte): string
     return htmlspecialchars($texte, ENT_QUOTES, 'UTF-8');
 }
 
+$db = getDb();
+
 // Calcul de l'offset 
 
 $parPage = 20;
@@ -24,6 +26,9 @@ if ($page < 1) {
 $offset = ($page - 1) * $parPage;
 
 // Calcul du nombre de pages 
+// Ceil -> Avadiho en entier tsotra 
+$totalFormations = (int) $db->query('SELECT COUNT(*) FROM formations')->fetchColumn();
+$totalPages = (int) ceil($totalFormations / $parPage);
 
 ?>
 <!DOCTYPE html>
