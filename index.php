@@ -67,6 +67,22 @@ $formations = $stmt->fetchAll();
         <?php endforeach; ?>
     </main>
 
-    
+    <!-- Navigation de pagination -->
+    <nav class="pagination">
+        <!-- Bouton Précédent -->
+        <?php if ($page > 1): ?>
+            <a href="?page=<?= $page - 1 ?>"&laquo>Précedent</a>
+        <?php endif?>
+
+        <!-- Liens vers les numéros de page -->
+            <a href="?page=<?= $i ?>" class="<?= $i === $page ? 'active' : '' ?>">
+                <?= $i ?>
+            </a>
+
+        <!-- Bouton Suivant -->
+        <?php if ($page <= $totalPages): ?>
+            <a href="?page=<?= $page + 1 ?>">Suivant</a>
+        <?php endif?>
+    </nav>
 </body>
 </html>
