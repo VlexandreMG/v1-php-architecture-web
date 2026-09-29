@@ -12,6 +12,19 @@ function e(string $texte): string
 {
     return htmlspecialchars($texte, ENT_QUOTES, 'UTF-8');
 }
+
+// Calcul de l'offset 
+
+$parPage = 20;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) {
+    $page = 1;
+} 
+
+$offset = ($page - 1) * $parPage;
+
+// Calcul du nombre de pages 
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
