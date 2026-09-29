@@ -3,9 +3,9 @@
 // Requête SQL, logique PHP et HTML sont dans le même fichier.
 require __DIR__ . '/db.php';
 
-$formations = getDb()
-    ->query('SELECT id, titre, description, niveau FROM formations ORDER BY niveau, titre')
-    ->fetchAll();
+// $formations = getDb()
+//     ->query('SELECT id, titre, description, niveau FROM formations ORDER BY niveau, titre')
+//     ->fetchAll();
 
 // Petite fonction d'échappement : jamais de donnée brute dans le HTML
 function e(string $texte): string
@@ -30,6 +30,19 @@ $offset = ($page - 1) * $parPage;
 $totalFormations = (int) $db->query('SELECT COUNT(*) FROM formations')->fetchColumn();
 $totalPages = (int) ceil($totalFormations / $parPage);
 
+
+// Requête SQL avec LIMIT et OFFSET 
+$stmt = $db->prepare('
+    SELECT id, titre, description, niveau 
+    FROM formations 
+    ORDER BY niveau, titre 
+    LIMIT :limit OFFSET :offset
+');
+
+$stmt->bindValue(':limit', $parPage, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
+$formations = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="fr">
